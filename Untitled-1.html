@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hitung Nilai Investasi</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <style>
+      body {
+        font-family: 'Arial', sans-serif;
+        margin: 20px;
+        background-color: #f8f9fa;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input,
+      button {
+        margin-bottom: 10px;
+      }
+
+      button {
+        padding: 8px 16px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      #result {
+        margin-top: 20px;
+        font-weight: bold;
+        color: #28a745;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mb-4">Hitung Nilai Investasi</h1>
+      <form id="investmentForm">
+        <div class="form-group">
+          <label for="investasi_awal">Nilai Investasi Awal:</label>
+          <input type="number" step="0.01" class="form-control" id="investasi_awal" required />
+        </div>
+
+        <div class="form-group">
+          <label for="persentase_pengembalian">Persentase Pengembalian Harian:</label>
+          <input type="number" step="0.01" class="form-control" id="persentase_pengembalian" required />
+        </div>
+
+        <div class="form-group">
+          <label for="jumlah_hari">Jumlah Hari Investasi:</label>
+          <input type="number" class="form-control" id="jumlah_hari" required />
+        </div>
+
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="tarik" />
+          <label class="form-check-label" for="tarik">Tarik Investasi (pajak 10%)</label>
+        </div>
+
+        <button type="button" class="btn btn-primary" onclick="hitungNilaiInvestasi()">Hitung</button>
+      </form>
+
+      <div id="result" class="mt-4"></div>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-U7UqNSFhp2mqqLcz/Do8n++Jo7OwsAsg+uo9IqUcbvUcQ5S8bFlv1mgH7d8p1fN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjM/6" crossorigin="anonymous"></script>
+
+    <script>
+      function hitungNilaiInvestasi() {
+        var investasi_awal = parseFloat(document.getElementById('investasi_awal').value);
+        var persentase_pengembalian = parseFloat(document.getElementById('persentase_pengembalian').value);
+        var jumlah_hari = parseInt(document.getElementById('jumlah_hari').value);
+        var tarik = document.getElementById('tarik').checked;
+
+        var nilai_investasi = investasi_awal;
+
+        for (var hari = 0; hari < jumlah_hari; hari++) {
+          var pengembalian_harian = (nilai_investasi * persentase_pengembalian) / 100;
+          nilai_investasi += pengembalian_harian;
+        }
+
+        if (tarik) {
+          var pajak = nilai_investasi * 0.1;
+          nilai_investasi -= pajak;
+        }
+
+        var resultElement = document.getElementById('result');
+        resultElement.innerHTML = 'Nilai investasi setelah ' + jumlah_hari + ' hari adalah: ' + nilai_investasi.toFixed(2);
+      }
+    </script>
+  </body>
+</html>
